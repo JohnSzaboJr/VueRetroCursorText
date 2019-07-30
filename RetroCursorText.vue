@@ -39,14 +39,19 @@ export default {
       required: false,
       default: 0
     },
-    startCursor: {
+    showCursorStart: {
       type: Boolean,
       required: false,
       default: true,
-    }
+    },
+    showCursorEnd: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
   },
   mounted() {
-    if (this.startCursor)
+    if (this.showCursorStart)
       this.cursorOn = true;
     setTimeout(() => {
       this.textAnimation();
@@ -64,6 +69,8 @@ export default {
         else {
           this.printedText = this.text;
           clearInterval(interval);
+          if (!this.showCursorEnd)
+            this.cursorOn = false;
         }
       }, 40);
     }
