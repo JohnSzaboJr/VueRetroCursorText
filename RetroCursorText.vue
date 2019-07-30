@@ -5,7 +5,7 @@
               normalFont: type === 'normal'}"
     :style="{fontSize: size + 'px'}"
   >
-    {{ this.printedText }}<div class="terminal-cursor">{{ this.cursor }}</div>
+    {{ this.printedText }}<div class="terminal-cursor" :class="{cursorAnimation: cursorOn}">{{ this.cursor }}</div>
   </div>
 </template>
 
@@ -16,6 +16,7 @@ export default {
     return ({
       printedText: '',
       cursor: '▊',
+      cursorOn: false,
     })
   },
   props: {
@@ -38,10 +39,18 @@ export default {
       required: false,
       default: 0
     },
+    startCursor: {
+      type: Boolean,
+      required: false,
+      default: true,
+    }
   },
   mounted() {
+    if (this.startCursor)
+      this.cursorOn = true;
     setTimeout(() => {
       this.textAnimation();
+      this.cursorOn = true;
     }, this.delay);
   },
   methods: {
@@ -78,12 +87,15 @@ export default {
 }
 
 .terminal-cursor {
-    opacity: 0;
-    display: inline-block;
-    animation: blink;
-    animation-duration: 850ms;
-    animation-iteration-count: infinite;
-  }
+  opacity: 0;
+  display: inline-block;
+}
+
+.cursorAnimation {
+  animation: blink;
+  animation-duration: 850ms;
+  animation-iteration-count: infinite;
+}
 
   @keyframes blink {
     0% {opacity: 1;}
