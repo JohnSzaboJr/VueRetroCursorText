@@ -32,12 +32,17 @@ export default {
       type: Number,
       required: false,
       default: 20
-    }
+    },
+    delay: {
+      type: Number, 
+      required: false,
+      default: 0
+    },
   },
   mounted() {
     setTimeout(() => {
       this.textAnimation();
-    }, 1500);
+    }, this.delay);
   },
   methods: {
     textAnimation() {
