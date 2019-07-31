@@ -3,7 +3,7 @@
     class="retro-cursor-text"
     :class="{wideFont: type === 'wide',
               normalFont: type === 'normal'}"
-    :style="{fontSize: size + 'px'}"
+    :style="{fontSize: size + 'px', color: color}"
   >
     {{ this.printedText }}<div class="terminal-cursor" :class="{cursorAnimation: cursorOn}">{{ this.cursor }}</div>
   </div>
@@ -39,19 +39,24 @@ export default {
       required: false,
       default: 0
     },
-    showCursorStart: {
+    hideCursorStart: {
       type: Boolean,
       required: false,
-      default: true,
+      default: false,
     },
-    showCursorEnd: {
+    hideCursorEnd: {
       type: Boolean,
       required: false,
-      default: true,
+      default: false,
+    },
+    color: {
+      type: String,
+      required: false,
+      default: '#00E100',
     },
   },
   mounted() {
-    if (this.showCursorStart)
+    if (!this.hideCursorStart)
       this.cursorOn = true;
     setTimeout(() => {
       this.textAnimation();
@@ -69,7 +74,7 @@ export default {
         else {
           this.printedText = this.text;
           clearInterval(interval);
-          if (!this.showCursorEnd)
+          if (this.hideCursorEnd)
             this.cursorOn = false;
         }
       }, 40);
@@ -87,10 +92,6 @@ export default {
 
 .normalFont {
   font-family: 'VT323', monospace;
-}
-
-.retro-cursor-text {
-  color: rgb(0, 225, 0);
 }
 
 .terminal-cursor {
